@@ -1,0 +1,25 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: "tap-lightdash"
+plugins:
+  extractors:
+  - name: "tap-lightdash"
+    namespace: "tap_lightdash"
+    pip_url: -e .
+    capabilities:
+    - state
+    - catalog
+    - discover
+    config:
+      username: ''
+      password: ''
+      url: ''
+    settings:
+    - name: username
+    - name: password
+      kind: password
+    - name: url
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
