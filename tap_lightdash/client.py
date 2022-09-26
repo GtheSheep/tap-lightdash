@@ -43,5 +43,5 @@ class LightdashStream(RESTStream):
                 'email': self.config['username'],
                 'password': self.config['password'],
             }
-        _ = self._requests_session.post('{url}/api/v1/login'.format(url=self.config['url']), json=auth_json)
+        _ = self._requests_session.post('{url}/api/v1/login'.format(url=self.config['url']), json=auth_json, verify=False)
         return self._requests_session
