@@ -158,6 +158,59 @@ class DashboardsStream(LightdashStream):
         )),
     ).to_dict()
 
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        for tile in record["tiles"]:
+            if record.get("savedChartUuid"):
+                yield {
+                    "savedChartUuid": record["savedChartUuid"],
+                }
+
+
+class SavedChartStream(LightdashStream):
+    name = "saved_charts"
+    path = "/saved/{savedChartUuid}"
+    primary_keys = ["uuid"
+    parent_stream_type = DashboardsStream
+    ignore_parent_replication_keys = True]
+    replication_key = None
+    schema = PropertiesList(
+        th.Property("organizationUuid", th.StringType),
+        th.Property("projectUuid", th.StringType),
+        th.Property("spaceUuid", th.StringType),
+        th.Property("spaceName", th.StringType),
+        th.Property("uuid", th.StringType),
+        th.Property("name", th.StringType),
+        th.Property("description", th.StringType),
+        th.Property("tableName", th.StringType),
+        th.Property("updatedAt", th.DateTimeType),
+        th.Property("firstViewedAt", th.DateTimeType),
+        th.Property("updatedByUser", th.ObjectType(
+            th.Property("userUuid", th.StringType),
+            th.Property("firstName", th.StringType),
+            th.Property("lastName", th.StringType),
+        )),
+        ## Haven't added all of the below metricQuery yet
+        th.Property("metricQuery", th.ObjectType(
+            th.Property("dimensions", th.ArrayType(th.StringType)),
+            th.Property("metrics", th.ArrayType(th.StringType)),
+            th.Property("filters", th.ObjectType(
+                th.Property("dimensions", th.ObjectType(
+                    th.Property("id", th.StringType),
+                    th.Property("and", th.ArrayType(
+                        th.ObjectType(
+                            th.Property("id", th.StringType),
+                            th.Property("target", th.ObjectType(
+                                th.Property("fieldId", th.StringType)
+                            )),
+                            th.Property("operator", th.StringType),
+                        )
+                    )),
+                ))
+            )),
+        )),
+        th.Property("views", th.IntegerType)
+    ).to_dict()
+
 
 class UsersStream(LightdashStream):
     name = "users"

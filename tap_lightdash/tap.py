@@ -10,6 +10,7 @@ from tap_lightdash.streams import (
     ProjectTablesConfigurationStream,
     ProjectDashboardsStream,
     DashboardsStream,
+    SavedChartStream,
     UsersStream,
 )
 STREAM_TYPES = [
@@ -18,6 +19,7 @@ STREAM_TYPES = [
     ProjectTablesConfigurationStream,
     ProjectDashboardsStream,
     DashboardsStream,
+    SavedChartStream,
     UsersStream,
 ]
 
