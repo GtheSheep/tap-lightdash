@@ -169,7 +169,7 @@ class DashboardsStream(LightdashStream):
 class SavedChartStream(LightdashStream):
     name = "saved_charts"
     path = "/saved/{savedChartUuid}"
-    primary_keys = ["uuid"
+    primary_keys = ["uuid"]
     parent_stream_type = DashboardsStream
     ignore_parent_replication_keys = True]
     replication_key = None
