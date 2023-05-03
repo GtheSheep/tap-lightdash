@@ -173,7 +173,7 @@ class SavedChartStream(LightdashStream):
     parent_stream_type = DashboardsStream
     ignore_parent_replication_keys = True
     replication_key = None
-    schema = PropertiesList(
+    schema = th.PropertiesList(
         th.Property("organizationUuid", th.StringType),
         th.Property("projectUuid", th.StringType),
         th.Property("spaceUuid", th.StringType),
