@@ -209,7 +209,7 @@ class SavedChartStream(LightdashStream):
         th.Property("views", th.IntegerType)
     ).to_dict()
 
-    def get_records(self, context: dict | None) -> Iterable[dict[str, Any]]:
+    def get_records(self, context: Optional[dict]) -> Iterable[dict[str, Any]]:
         """Return a generator of record-type dictionary objects.
 
         Each record emitted should be a dictionary of property names to their values.
