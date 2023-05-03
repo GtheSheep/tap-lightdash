@@ -159,11 +159,9 @@ class DashboardsStream(LightdashStream):
     ).to_dict()
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
-        for tile in record["tiles"]:
-            if tile.get("properties", {}).get("savedChartUuid"):
-                yield {
-                    "savedChartUuid": tile["savedChartUuid"],
-                }
+        return {
+            "savedChartUuids": [tile["savedChartUuid"] for tile in record["tiles"] if tile.get("properties", {}).get("savedChartUuid")],
+        }
 
 
 class SavedChartStream(LightdashStream):
@@ -210,6 +208,26 @@ class SavedChartStream(LightdashStream):
         )),
         th.Property("views", th.IntegerType)
     ).to_dict()
+
+    def get_records(self, context: dict | None) -> t.Iterable[dict[str, t.Any]]:
+        """Return a generator of record-type dictionary objects.
+
+        Each record emitted should be a dictionary of property names to their values.
+
+        Args:
+            context: Stream partition or context dictionary.
+
+        Yields:
+            One item per (possibly processed) record in the API.
+        """
+        for savedChartUuid in context["savedChartUuids"]:
+            context["savedChartUuid"] = savedChartUuid
+            for record in self.request_records(context):
+                transformed_record = self.post_process(record, context)
+                if transformed_record is None:
+                    # Record filtered out during post_process()
+                    continue
+                yield transformed_record
 
 
 class UsersStream(LightdashStream):
