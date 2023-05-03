@@ -160,9 +160,9 @@ class DashboardsStream(LightdashStream):
 
     def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
         for tile in record["tiles"]:
-            if record.get("savedChartUuid"):
+            if tile.get("properties", {}).get("savedChartUuid"):
                 yield {
-                    "savedChartUuid": record["savedChartUuid"],
+                    "savedChartUuid": tile["savedChartUuid"],
                 }
 
 
