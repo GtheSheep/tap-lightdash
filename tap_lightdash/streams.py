@@ -171,7 +171,7 @@ class SavedChartStream(LightdashStream):
     path = "/saved/{savedChartUuid}"
     primary_keys = ["uuid"]
     parent_stream_type = DashboardsStream
-    ignore_parent_replication_keys = True]
+    ignore_parent_replication_keys = True
     replication_key = None
     schema = PropertiesList(
         th.Property("organizationUuid", th.StringType),
