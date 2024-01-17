@@ -28,20 +28,21 @@ class LightdashStream(RESTStream):
         headers = {}
         if "user_agent" in self.config:
             headers["User-Agent"] = self.config.get("user_agent")
+        if self.config.get('personal_access_token') is not None:
+            headers["Authorization"] = 'ApiKey {token}'.format(token=self.config['personal_access_token'])
         return headers
 
     @property
     def requests_session(self) -> requests.Session:
         # if not self._requests_session:
         self._requests_session = requests.Session()
-        if self.config.get('personal_access_token') is not None:
-            auth_json = {
-                'personal_access_token': self.config['personal_access_token']
-            }
-        else:
-            auth_json = {
-                'email': self.config['username'],
-                'password': self.config['password'],
-            }
-        _ = self._requests_session.post('{url}/api/v1/login'.format(url=self.config['url']), json=auth_json, verify=False)
+        if self.config.get('username') is not None and self.config.get('password') is not None:
+            _ = self._requests_session.post(
+                '{url}/api/v1/login'.format(url=self.config['url']),
+                json={
+                    'email': self.config['username'],
+                    'password': self.config['password'],
+                },
+                verify=False
+            )
         return self._requests_session
