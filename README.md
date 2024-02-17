@@ -1,6 +1,6 @@
 # tap-lightdash
 
-`tap-lightdash` is a Singer tap for [Lightdash](https://www.lightdash.com/)
+`tap-lightdash` is a Singer tap for [Lightdash](https://www.lightdash.com/) built on the [Lightdash API](https://docs.lightdash.com/api/v1/).
 
 Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
 
