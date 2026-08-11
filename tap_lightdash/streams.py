@@ -235,6 +235,7 @@ class UsersStream(LightdashStream):
     name = "users"
     path = "/org/users"
     primary_keys = ["userUuid"]
+    records_jsonpath = "$.results.data[*]"
     replication_key = None
     schema = th.PropertiesList(
         th.Property("userUuid", th.StringType),
